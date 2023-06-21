@@ -9,7 +9,7 @@ class Enemy(pygame.sprite.Sprite):
         self.superficie = pygame.image.load("img/red.png").convert_alpha()
         self.width = self.superficie.get_rect().width
         self.height = self.superficie.get_rect().height
-        self.rect = self.superficie.get_rect(topleft = (random.choice((0,screen.get_rect().width - self.width - 2)),random.randrange(50,self.height * 3 + 50,self.height + 50)))
+        self.rect = self.superficie.get_rect(topleft = (random.choice((0,screen.get_rect().width - self.width - 2)),random.randrange(50,self.height * 3 + 50,self.height)))
         self.speed = random.randrange(1,3)
         self.flag = True
         self.laser = pygame.sprite.Group()
@@ -18,6 +18,7 @@ class Enemy(pygame.sprite.Sprite):
         self.laser_audio.set_volume(0.5)
 
     def update(self,screen):
+        #El enemigo se desplaza recto por la pantalla, cuando llega al borde baja y vuelve 
         if(self.rect.x < (screen.get_rect().width - self.width)) and self.flag:
             self.rect.x += self.speed
             if self.rect.x == screen.get_rect().width - self.width:
@@ -29,6 +30,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.rect.y += self.height
                 self.flag = True
         
+        #Espera un tiempo determinado para poder disparar de nuevo
         if pygame.time.get_ticks() - self.laser_time >= ENEMY_RECHARGE:
             self.laser.add(Laser(self.rect,COLOR_RED,3))
             self.laser_time = pygame.time.get_ticks()

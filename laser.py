@@ -9,6 +9,7 @@ class Laser(pygame.sprite.Sprite):
         self.speed = speed
     
     def update(self,screen):
+        #Verifica que el laser este dentro de la ventana
         if self.rect.y <= -LASER_HEIGHT or self.rect.y >= screen.get_rect().height + LASER_HEIGHT:
             self.kill()
         self.rect.y += self.speed

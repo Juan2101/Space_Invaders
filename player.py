@@ -17,12 +17,14 @@ class Player:
         self.explosion_enemy_audio = pygame.mixer.Sound("audio/explosion.wav")
         self.laser_audio = pygame.mixer.Sound("audio/laser.wav")
 
+    #Muestra la puntuacion en pantalla
     def display_score(self,screen,font):
         score_superficie = font.render(f"Score: {self.score}",False,COLOR_WHITE)
         score_rect = score_superficie.get_rect(topleft = (5,-5))
 
         screen.blit(score_superficie,score_rect)
 
+    #Verifica si el jugador recibe daño y muestra las vidas restantes
     def display_health(self,screen,font,enemies):
         for enemy in enemies:
             if pygame.sprite.spritecollide(self,enemy.laser,True):
@@ -59,11 +61,13 @@ class Player:
                 self.laser_time = pygame.time.get_ticks()
                 self.laser_flag = False
 
+        #Espera un tiempo determinado para poder disparar de nuevo
         if not self.laser_flag:
             time = pygame.time.get_ticks()
             if time - self.laser_time >= PLAYER_RECHARGE:
                 self.laser_flag = True
 
+        #Vefica si se destruye un enemigo y aumenta la puntuacion
         if pygame.sprite.groupcollide(lasers,enemies,True,True):
             self.explosion_audio.play()
             self.score += 100

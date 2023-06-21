@@ -1,6 +1,7 @@
 import pygame
 import sqlite3
 
+#Crea la base de datos si no existe
 def crear_bd():
     with sqlite3.connect("db/bd_ranking.db") as conexion:
         try:
@@ -16,6 +17,7 @@ def crear_bd():
         except sqlite3.OperationalError:
             print("La tabla ranking ya existe")
 
+#Agrega un nuevo puntaje a la base de datos
 def update_bd(name,score):
         with sqlite3.connect("db/bd_ranking.db") as conexion:
             try:
@@ -24,6 +26,7 @@ def update_bd(name,score):
             except:
                 print("Error")
 
+#detecta si se hace click en un rectangulo pasado por parametro
 def click(rect)->bool:
     mouse = pygame.mouse.get_pos()
     if rect.collidepoint(mouse) and pygame.mouse.get_pressed()[0]:
